@@ -1,4 +1,4 @@
-import React, { useRef, useMemouseState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { View, StyleSheet,ScrollView, TouchableOpacity} from "react-native";
 import {
   FontAwesome5,
@@ -13,7 +13,7 @@ import {
   Button,
   useTheme,
   Toggle,
-  Avatar
+  Icon,
 } from "@ui-kitten/components";
 import {
   BottomSheetModalProvider,
@@ -32,6 +32,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import AppHeader from "../component/AppHeader";
 import DataCard from "../component/homescreen/DataCard";
 import WeatherCard from "../component/homescreen/WeatherCard";
+import IconCard from "../component/homescreen/IconCard";
 
 
 
@@ -67,7 +68,6 @@ function HomeScreen({ navigation }) {
               <DataCard iconName="power-plug" label="Power" value="2.3kwH" />
               </View>
         {/* weather card */}
-                  <WeatherCard avatarSource={require("../assets/sun.png")} location="Los Angeles, California" temperature="72" humidity="70%" wind="5mph" rain="0%" onPressRefresh={() => {}} onPressSearch={() => {}} />
       {/* Rooms */}
               <View style={[ styles.rowFlex, {justifyContent:"space-between", alignContent:"center"} ]}>
               <Text category="h3" >
@@ -80,155 +80,19 @@ function HomeScreen({ navigation }) {
               <Text appearance="hint" category="s2" style={[styles.hintText]}>
                 Quickly access a certain area.
               </Text>
-
               <ScrollView
                   style={{ height: 160, marginTop: 10 }}
                   horizontal={true}
                   pagingEnabled={false}
                   showsHorizontalScrollIndicator={false}
                 >
-                  <Card
-                    onPress={() => navigation.navigate("Learn")}
-                    style={[
-                      styles.dataBox,
-                      { justifyContent: "center" },
-                      { alignContent: "center" }
-                      ,
-                    ]}
-                  >
-                    <MaterialCommunityIcons
-                      name="bed"
-                      size={34}
-                      color={theme["color-primary-500"]}
-                      style={[{ textAlign: "center" }]}
-                    />
-                    <Text
-                      category="p2"
-                      style={[
-                        styles.taskText,
-                        { marginTop:10 },
-                      ]}
-                    >
-                      Bedroom
-                    </Text>
-
-                  </Card>
-                  <Card
-                    onPress={() => navigation.navigate("Donate")}
-                    style={[
-                      styles.dataBox,
-                      { justifyContent: "center", alignContent: "center" },
-                    ]}
-                  >
-                    <MaterialCommunityIcons
-                      name="stove"
-                      size={34}
-                      color={theme["color-primary-500"]}
-                      style={{ textAlign: "center" }}
-                    />
-
-                    <Text
-                      category="p2"
-                      style={[
-                        styles.taskText,
-                        { marginTop:10 },
-                      ]}
-                    >
-                      Kitchen
-                    </Text>
-                  </Card>
-                  <Card
-                    onPress={() => navigation.navigate("Shop")}
-                    style={[
-                      styles.dataBox,
-                      { justifyContent: "center", alignContent: "center" },
-                    ]}
-                  >
-                    <MaterialCommunityIcons
-                      name="car"
-                      size={34}
-                      color={theme["color-primary-500"]}
-                      style={{ textAlign: "center" }}
-                    />
-                    <Text
-                      category="p2"
-                      style={[
-                        styles.taskText,
-                        { marginTop:10 },
-                      ]}
-                    >
-                      Garage
-                    </Text>
-
-                  </Card>
-                  <Card
-                    onPress={() => navigation.navigate("Resources")}
-                    style={[
-                      styles.dataBox,
-                      { justifyContent: "center", alignContent: "center" },
-                    ]}
-                  >
-                    <MaterialCommunityIcons
-                      name="shower"
-                      size={34}
-                      color={theme["color-primary-500"]}
-                      style={{ textAlign: "center" }}
-                    />
-                    <Text
-                      category="p2"
-                      style={[
-                        styles.taskText,
-                        { marginTop:10 },
-                      ]}
-                    >
-                      Bath 1
-                    </Text>
-                  </Card>
-                  <Card
-                    style={[
-                      styles.dataBox,
-                      { justifyContent: "center", alignContent: "center" },
-                    ]}
-                  >
-                    <MaterialCommunityIcons
-                      name="shower"
-                      size={34}
-                      color={theme["color-primary-500"]}
-                      style={{ textAlign: "center" }}
-                    />
-                    <Text
-                      category="p2"
-                      style={[
-                        styles.taskText,
-                        { marginTop:10 },
-                      ]}
-                    >
-                      Bath 2
-                    </Text>
-                  </Card>
-                  <Card
-                    style={[
-                      styles.dataBox,
-                      { justifyContent: "center", alignContent: "center" },
-                    ]}
-                  >
-                    <MaterialCommunityIcons
-                      name="youtube-tv"
-                      size={34}
-                      color={theme["color-primary-500"]}
-                      style={{ textAlign: "center" }}
-                    />
-                    <Text
-                      category="p2"
-                      style={[
-                        styles.taskText,
-                        { marginTop:10 },
-                      ]}
-                    >
-                      Living Room
-                    </Text>
-
-                  </Card>
+                  <IconCard name="Bedroom" icon="bed" />
+                  <IconCard name="Kitchen" icon="stove" />
+                  <IconCard name="Garage" icon="car" />
+                  <IconCard name="Living Room" icon="home" />
+                  <IconCard name="Basement" icon="floor-lamp" />
+                  <IconCard name="Bathroom" icon="shower" />
+                  <IconCard name="Office" icon="office-building" />
                 </ScrollView>
       {/* devices */}
                 <View style={[ styles.rowFlex, {justifyContent:"space-between", alignContent:"center"} ]}>
@@ -535,7 +399,7 @@ function HomeScreen({ navigation }) {
                 </ScrollView>
 
 
-              <Text category="h3" style={{margin:10}}>
+              <Text category="h3" style={{marginTop:10}}>
                 Widgets
               </Text>
               <Text appearance="hint" category="s2" style={[styles.hintText]}>
@@ -695,7 +559,6 @@ const styles = StyleSheet.create({
     marginTop:3
   },
   hintText:{
-    marginLeft:5,
     marginTop: 5,
   },
   deviceWidget: {

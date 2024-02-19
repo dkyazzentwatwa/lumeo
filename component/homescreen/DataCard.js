@@ -1,32 +1,13 @@
-import React, { useRef, useMemouseState, useMemo } from "react";
-import { View, StyleSheet,ScrollView, TouchableOpacity} from "react-native";
+import React from "react";
+import { View, StyleSheet} from "react-native";
 import {
-  FontAwesome5,
-  Entypo,
   MaterialCommunityIcons,
-  FontAwesome,
 } from "@expo/vector-icons";
 import {
   Card,
   Text,
-  Layout,
-  Button,
   useTheme,
-  Toggle,
-  Avatar
 } from "@ui-kitten/components";
-import {
-  BottomSheetModalProvider,
-  BottomSheetModal,
-  BottomSheetBackdrop,
-} from "@gorhom/bottom-sheet";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-  SafeAreaView,
-} from "react-native-safe-area-context";
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 function DataCard({ iconName, label, value}) {
   const theme = useTheme();
