@@ -34,8 +34,6 @@ import DataCard from "../component/homescreen/DataCard";
 import WeatherCard from "../component/homescreen/WeatherCard";
 import IconCard from "../component/homescreen/IconCard";
 
-
-
 const Tab = createBottomTabNavigator();
 
 function HomeScreen({ navigation }) {
@@ -113,27 +111,7 @@ function HomeScreen({ navigation }) {
                   pagingEnabled={false}
                   showsHorizontalScrollIndicator={false}
                 >
-              <Card
-                onPress={() => navigation.navigate("Learn")}
-                style={[
-                  styles.dataBox,
-                  { justifyContent: "center" },
-                  { alignContent: "center" },
-                ]}
-              >
-                <MaterialCommunityIcons
-                  name="lightbulb"
-                  size={34}
-                  color={theme["color-primary-500"]}
-                  style={[{ textAlign: "center" }]}
-                />
-                <Text
-                  category="p2"
-                  style={[styles.taskText, { marginTop: 10 }]}
-                >
-                  Lightbulbs
-                </Text>
-              </Card>
+              <IconCard name="Lights" icon="lightbulb-on" />
               <Card
                 onPress={() => navigation.navigate("Donate")}
                 style={[
