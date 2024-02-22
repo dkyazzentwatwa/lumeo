@@ -1,11 +1,6 @@
 import React, { useRef, useMemo, useCallback } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import {
-  Text,
-  Avatar,
-  useTheme,
-  Layout,
-} from "@ui-kitten/components";
+import { Text, Avatar, useTheme, Layout } from "@ui-kitten/components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -18,6 +13,7 @@ import SettingScreen from "./settingScreen";
 import DeviceBox from "../component/devicescreen/DeviceBox";
 import IconCard from "../component/homescreen/IconCard";
 import ListItem from "../component/listItem";
+import AppHeader from "../component/AppHeader";
 
 function DeviceScreen({ navigation }) {
   const theme = useTheme();
@@ -39,7 +35,6 @@ function DeviceScreen({ navigation }) {
     ),
     []
   );
-
   const [status, setStatus] = React.useState("Off");
   const [checked, setChecked] = React.useState(false);
   const [circleState, setCircleColor] = React.useState(
@@ -62,29 +57,11 @@ function DeviceScreen({ navigation }) {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
         <Layout style={[styles.container]}>
-          <View
-            style={[
-              styles.rowFlex,
-              { borderRadius: 20, alignItems: "center", marginTop: 60 },
-            ]}
-          >
-            <Text category="h3" style={{ alignItems: "flex-start" }}>
-              Your Devices
-            </Text>
-            <View
-              style={[
-                {
-                  justifyContent: "flex-end",
-                  flex: 3,
-                },
-                styles.rowFlex,
-              ]}
-            >
-              <TouchableOpacity onPress={() => settingSheetModal()}>
-                <Avatar size="giant" source={require("../assets/user.png")} />
-              </TouchableOpacity>
-            </View>
-          </View>
+        <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
+          <AppHeader
+            title="My Devices"
+            avatarSource={require("../assets/user.png")}
+          />
           <ScrollView
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
@@ -227,6 +204,7 @@ function DeviceScreen({ navigation }) {
             />
             {/* Bottom SHEET Modals */}
           </ScrollView>
+        </SafeAreaView>
         </Layout>
         <BottomSheetModal
           ref={settingSheetRef}

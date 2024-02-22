@@ -1,37 +1,20 @@
 import React, { useRef, useMemo, useCallback } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import {
-  FontAwesome5,
-  Entypo,
-  MaterialCommunityIcons,
-  FontAwesome,
-
-} from "@expo/vector-icons";
-import {
-  Card,
-  Text,
-  Avatar,
-  Button,
-  useTheme,
-  Toggle,
-  Layout
-} from "@ui-kitten/components";
+import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Card, Text, useTheme, Toggle, Layout, Icon, List } from "@ui-kitten/components";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   BottomSheetModalProvider,
   BottomSheetModal,
   BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SettingScreen from "./settingScreen";
-
+import AppHeader from "../component/AppHeader";
+import CameraDeviceBox from "../component/camera/CameraDeviceBox";
+import IconCard from "../component/homescreen/IconCard";
+import ListItem from "../component/listItem";
 
 
 function CameraScreen({ navigation }) {
@@ -56,9 +39,11 @@ function CameraScreen({ navigation }) {
     ),
     []
   );
-
   const [status, setStatus] = React.useState("Off");
   const [checked, setChecked] = React.useState(false);
+  const [circleState, setCircleColor] = React.useState(
+    theme["color-danger-500"]
+  );
   const onCheckedChange = (isChecked) => {
     setChecked(isChecked);
     if (isChecked == true) {
@@ -67,638 +52,67 @@ function CameraScreen({ navigation }) {
       setStatus("Off");
     }
   };
-
-  /* callbacks */
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
         <Layout style={[styles.container]}>
-          <View
-            style={[
-              styles.rowFlex,
-              { borderRadius: 20, alignItems: "center", marginTop: 60 },
-            ]}
-          >
-            <Text category="h3" style={{ alignItems: "flex-start" }}>
-              Your Cameras
-            </Text>
-            <View
-              style={[
-                {
-                  justifyContent: "flex-end",
-                  flex: 3,
-                },
-                styles.rowFlex,
-              ]}
-            >
-              <TouchableOpacity onPress={() => settingSheetModal()}>
-                <Avatar size="giant" source={require("../assets/user.png")} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            <View style={[styles.colFlex]}>
-              <Text category="s2" appearance="hint">Connect your devices here.</Text>
-            </View>
-            <View style={[styles.rowFlex, { justifyContent: "center" }]}>
-              <Card style={[styles.deviceBox]}>
-                <View style={[styles.rowFlex, { justifyContent: "space-between", alignItems: "center"}]}>
-                <Text
-                  category="p2"
-                  style={[styles.moneyText]}
-                >
-                  Front Door
-                </Text>
-                <MaterialCommunityIcons  name="circle" size={12} color={theme["color-success-500"]} />
-                </View>
-                <MaterialCommunityIcons
-                  name="lightbulb"
-                  size={44}
-                  color={theme["color-primary-500"]}
-                  style={[{ marginTop: 5 }]}
-                />
-                <Text category="h6" style={{ marginTop: 20 }}>
-                  Connected
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Last Active: 10m ago
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  0 Alerts
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Power: {status}
-                </Text>
-                {/* Toggle that is aligned to the left */}
-                <Toggle
-                  style={{ marginTop: 10 , justifyContent: "flex-start", width:40}}
-                  checked={checked}
-                  onChange={onCheckedChange}
-                />
-              </Card>
-              <Card style={[styles.deviceBox]}>
-              <View style={[styles.rowFlex, { justifyContent: "space-between", alignItems: "center"}]}>
-                <Text
-                  category="p2"
-                  style={[styles.moneyText]}
-                >
-                  Sally's Room
-                </Text>
-                <MaterialCommunityIcons  name="circle" size={12} color={theme["color-danger-500"]} />
-                </View>
-
-                <MaterialCommunityIcons
-                  name="sun-thermometer"
-                  size={44}
-                  color={theme["color-primary-500"]}
-                  style={[{ marginTop: 5 }]}
-                />
-                <Text category="h6" style={{ marginTop: 20 }}>
-                  Connected
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Last Active: 10m ago
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  0 Alerts
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Power: {status}
-                </Text>
-
-                {/* Toggle that is aligned to the left */}
-                <Toggle
-                  style={{ marginTop: 10 , justifyContent: "flex-start", width:40}}
-                  checked={checked}
-                  onChange={onCheckedChange}
-                />
-              </Card>
-              <Card style={[styles.deviceBox]}>
-              <View style={[styles.rowFlex, { justifyContent: "space-between", alignItems: "center"}]}>
-                <Text
-                  category="p2"
-                  style={[styles.moneyText]}
-                >
-                  Garage
-                </Text>
-                <MaterialCommunityIcons  name="circle" size={12} color={theme["color-success-500"]} />
-                </View>
-                <MaterialCommunityIcons
-                  name="security"
-                  size={44}
-                  color={theme["color-primary-500"]}
-                  style={[{ marginTop: 5 }]}
-                />
-                <Text category="h6" style={{ marginTop: 20 }}>
-                  Connected
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Last Active: 10m ago
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  0 Alerts
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Power: {status}
-                </Text>
-
-                {/* Toggle that is aligned to the left */}
-                <Toggle
-                  style={{ marginTop: 10 , justifyContent: "flex-start", width:40}}
-                  checked={checked}
-                  onChange={onCheckedChange}
-                />
-              </Card>
-              <Card style={[styles.deviceBox]}>
-              <View style={[styles.rowFlex, { justifyContent: "space-between", alignItems: "center"}]}>
-                <Text
-                  category="p2"
-                  style={[styles.moneyText]}
-                >
-                  Kitchen 
-                </Text>
-                <MaterialCommunityIcons  name="circle" size={12} color={theme["color-danger-500"]} />
-                </View>
-
-                <MaterialCommunityIcons
-                  name="stove"
-                  size={44}
-                  color={theme["color-primary-500"]}
-                  style={[{ marginTop: 5 }]}
-                />
-                <Text category="h6" style={{ marginTop: 20 }}>
-                  Connected
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Last Active: 10m ago
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  0 Alerts
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Power: {status}
-                </Text>
-
-                {/* Toggle that is aligned to the left */}
-                <Toggle
-                  style={{ marginTop: 10 , justifyContent: "flex-start", width:40}}
-                  checked={checked}
-                  onChange={onCheckedChange}
-                />
-
-              </Card>
-              <Card style={[styles.deviceBox]}>
-              <View style={[styles.rowFlex, { justifyContent: "space-between", alignItems: "center"}]}>
-                <Text
-                  category="p2"
-                  style={[styles.moneyText]}
-                >
-                  Laundry 
-                </Text>
-                <MaterialCommunityIcons  name="circle" size={12} color={theme["color-success-500"]} />
-                </View>
-
-                <MaterialCommunityIcons
-                  name="tumble-dryer"
-                  size={44}
-                  color={theme["color-primary-500"]}
-                  style={[{ marginTop: 5 }]}
-                />
-                <Text category="h6" style={{ marginTop: 20 }}>
-                  Connected
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Last Active: 10m ago
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  0 Alerts
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Power: {status}
-                </Text>
-
-                {/* Toggle that is aligned to the left */}
-                <Toggle
-                  style={{ marginTop: 10 , justifyContent: "flex-start", width:40}}
-                  checked={checked}
-                  onChange={onCheckedChange}
-                />
-
-              </Card>
-              <Card style={[styles.deviceBox]}>
-              <View style={[styles.rowFlex, { justifyContent: "space-between", alignItems: "center"}]}>
-                <Text
-                  category="p2"
-                  style={[styles.moneyText]}
-                >
-                  Backyard
-                </Text>
-                <MaterialCommunityIcons  name="circle" size={12} color={theme["color-success-500"]} />
-                </View>
-
-                <MaterialCommunityIcons
-                  name="robot-vacuum"
-                  size={44}
-                  color={theme["color-primary-500"]}
-                  style={[{ marginTop: 5 }]}
-                />
-                <Text category="h6" style={{ marginTop: 20 }}>
-                  Connected
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Last Active: 10m ago
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  0 Alerts
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Power: {status}
-                </Text>
-
-                {/* Toggle that is aligned to the left */}
-                <Toggle
-                  style={{ marginTop: 10 , justifyContent: "flex-start", width:40}}
-                  checked={checked}
-                  onChange={onCheckedChange}
-                />
-              </Card>
-              <Card style={[styles.deviceBox]}>
-              <View style={[styles.rowFlex, { justifyContent: "space-between", alignItems: "center"}]}>
-                <Text
-                  category="p2"
-                  style={[styles.moneyText]}
-                >
-                  Front Yard
-                </Text>
-                <MaterialCommunityIcons  name="circle" size={12} color={theme["color-warning-500"]} />
-                </View>
-
-                <MaterialCommunityIcons
-                  name="solar-panel"
-                  size={44}
-                  color={theme["color-primary-500"]}
-                  style={[{ marginTop: 5 }]}
-                />
-                <Text category="h6" style={{ marginTop: 20 }}>
-                  Connected
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Last Active: 10m ago
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  0 Alerts
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Power: {status}
-                </Text>
-
-                {/* Toggle that is aligned to the left */}
-                <Toggle
-                  style={{ marginTop: 10 , justifyContent: "flex-start", width:40}}
-                  checked={checked}
-                  onChange={onCheckedChange}
-                />
-
-              </Card>
-              <Card style={[styles.deviceBox]}>
-              <View style={[styles.rowFlex, { justifyContent: "space-between", alignItems: "center"}]}>
-                <Text
-                  category="p2"
-                  style={[styles.moneyText]}
-                >
-                  Living Room
-                </Text>
-                <MaterialCommunityIcons  name="circle" size={12} color={theme["color-danger-500"]} />
-                </View>
-
-                <MaterialCommunityIcons
-                  name="youtube-tv"
-                  size={44}
-                  color={theme["color-primary-500"]}
-                  style={[{ marginTop: 5 }]}
-                />
-                <Text category="h6" style={{ marginTop: 20 }}>
-                  Connected
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Last Active: 10m ago
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  0 Alerts
-                </Text>
-                <Text appearance="hint" category="c1" style={{ marginTop: 10 }}>
-                  Power: {status}
-                </Text>
-
-                {/* Toggle that is aligned to the left */}
-                <Toggle
-                  style={{ marginTop: 10 , justifyContent: "flex-start", width:40}}
-                  checked={checked}
-                  onChange={onCheckedChange}
-                />
-
-              </Card>
-            </View>
-
-            <Text category="h3" style={{ marginTop: 10 }}>
-              Favorites
-            </Text>
+          <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
+            <AppHeader
+              title="Your Cameras"
+              avatarSource={require("../assets/user.png")}
+            />
             <ScrollView
-              style={{ height: 160, marginTop: 10 }}
-              horizontal={true}
-              pagingEnabled={false}
+              showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
-              <Card
-                onPress={() => navigation.navigate("Learn")}
-                style={[
-                  styles.dataBox,
-                  { justifyContent: "center" },
-                  { alignContent: "center" },
-                ]}
-              >
-                <MaterialCommunityIcons
-                  name="lightbulb"
-                  size={34}
-                  color={theme["color-primary-500"]}
-                  style={[{ textAlign: "center" }]}
-                />
-                <Text
-                  category="p2"
-                  style={[styles.taskText, { marginTop: 10 }]}
-                >
-                  Lightbulbs
+              <View style={[styles.colFlex]}>
+                <Text category="s2" appearance="hint">
+                  Connect your devices here.
                 </Text>
-              </Card>
-              <Card
-                onPress={() => navigation.navigate("Donate")}
-                style={[
-                  styles.dataBox,
-                  { justifyContent: "center", alignContent: "center" },
-                ]}
-              >
-                <MaterialCommunityIcons
-                  name="youtube-tv"
-                  size={34}
-                  color={theme["color-primary-500"]}
-                  style={{ textAlign: "center" }}
-                />
+              </View>
+              <View style={[styles.rowFlex, { justifyContent: "center" }]}>
+                <CameraDeviceBox icon="sofa" title="Living Room" devices="1" activeTime="10" status={status} checked={checked} onCheckedChange={onCheckedChange}
+                circleColor={circleState} alertNumber="2"/>
+                <CameraDeviceBox icon="sun-thermometer" title="Sally's Room" devices="1" activeTime="20" status={status} checked={checked} onCheckedChange={onCheckedChange} alertNumber="3" />
+                <CameraDeviceBox icon="security" title="Garage" devices="1" activeTime="30" status={status} checked={checked} onCheckedChange={onCheckedChange} circleColor={circleState} alertNumber="0"/>
+                <CameraDeviceBox icon="stove" title="Kitchen" devices="1" activeTime="40" status={status} checked={checked} onCheckedChange={onCheckedChange} circleColor={circleState} alertNumber="0"/>
+                <CameraDeviceBox icon="tumble-dryer" title="Laundry" devices="1" activeTime="50" status={status} checked={checked} onCheckedChange={onCheckedChange} circleColor={circleState} alertNumber="0"/>
+                <CameraDeviceBox icon="robot-vacuum" title="Backyard" devices="1" activeTime="60" status={status} checked={checked} onCheckedChange={onCheckedChange} circleColor={circleState} alertNumber="0"/>
+                <CameraDeviceBox icon="solar-panel" title="Front Yard" devices="1" activeTime="70" status={status} checked={checked} onCheckedChange={onCheckedChange} circleColor={circleState} alertNumber="0"/>
+                <CameraDeviceBox icon="youtube-tv" title="Bedroom" devices="1" activeTime="80" status={status} checked={checked} onCheckedChange={onCheckedChange} circleColor={circleState} alertNumber="0"/>
+              </View>
 
-                <Text
-                  category="p2"
-                  style={[styles.taskText, { marginTop: 10 }]}
-                >
-                  TVs
-                </Text>
-              </Card>
-              <Card
-                onPress={() => navigation.navigate("Shop")}
-                style={[
-                  styles.dataBox,
-                  { justifyContent: "center", alignContent: "center" },
-                ]}
+              <Text category="h3" style={{ marginTop: 10 }}>
+                Favorites
+              </Text>
+              <ScrollView
+                style={{ height: 160, marginTop: 10 }}
+                horizontal={true}
+                pagingEnabled={false}
+                showsHorizontalScrollIndicator={false}
               >
-                <MaterialCommunityIcons
-                  name="cast-audio-variant"
-                  size={34}
-                  color={theme["color-primary-500"]}
-                  style={{ textAlign: "center" }}
-                />
-                <Text
-                  category="p2"
-                  style={[styles.taskText, { marginTop: 10 }]}
-                >
-                  Audio
-                </Text>
-              </Card>
-              <Card
-                onPress={() => navigation.navigate("Resources")}
-                style={[
-                  styles.dataBox,
-                  { justifyContent: "center", alignContent: "center" },
-                ]}
-              >
-                <FontAwesome5
-                  name="tools"
-                  size={34}
-                  color={theme["color-primary-500"]}
-                  style={{ textAlign: "center" }}
-                />
-                <Text
-                  category="p2"
-                  style={[styles.taskText, { marginTop: 10 }]}
-                >
-                  Kitchen
-                </Text>
-              </Card>
-              <Card
-                style={[
-                  styles.dataBox,
-                  { justifyContent: "center", alignContent: "center" },
-                ]}
-              >
-                <MaterialCommunityIcons
-                  name="stove"
-                  size={34}
-                  color={theme["color-primary-500"]}
-                  style={{ textAlign: "center" }}
-                />
-                <Text
-                  category="p2"
-                  style={[styles.taskText, { marginTop: 10 }]}
-                >
-                  Social
-                </Text>
-              </Card>
-              <Card
-                style={[
-                  styles.dataBox,
-                  { justifyContent: "center", alignContent: "center" },
-                ]}
-              >
-                <MaterialCommunityIcons
-                  name="security"
-                  size={34}
-                  color={theme["color-primary-500"]}
-                  style={{ textAlign: "center" }}
-                />
-                <Text
-                  category="p2"
-                  style={[styles.taskText, { marginTop: 10 }]}
-                >
-                  Security
-                </Text>
-              </Card>
+                <IconCard name="Garage" icon="car" />
+                <IconCard name="Bedrooms" icon="bed" />
+                <IconCard name="Backyard" icon="grill" />
+                <IconCard name="Kitchen" icon="stove" />
+                <IconCard name="Bath 1" icon="shower" />
+                <IconCard name="Office" icon="laptop" />
+              </ScrollView>
+
+              <Text category="h4" style={{ marginTop: 10 }}>
+                Optimize your cameras
+              </Text>
+              <Text appearance="hint" category="s2" style={[styles.hintText]}>
+                Get the most out of your security.
+              </Text>
+              <ListItem iconName="calendar" title="Adjust Motion Zones" subtitle="Define areas within the camera's view." />
+              <ListItem iconName="format-list-group" title="Schedule Recording Periods" subtitle="Automated recording schedules." />
+              <ListItem iconName="arrow-decision-auto" title="Enable Night Vision" subtitle="Adjust settings for better vision." />
+              <ListItem iconName="filmstrip" title="Connect to Smart Lights" subtitle="Automatic lights w/ motion detection." />
+              <ListItem iconName="lightning-bolt" title="Review & Share Clips" subtitle="Review saved & edit saved clips." />
+              {/* Bottom SHEET Modals */}
             </ScrollView>
-
-            <Text category="h4" style={{ marginTop: 10 }}>
-              Optimize your cameras
-            </Text>
-            <Text appearance="hint" category="s2" style={[styles.hintText]}>
-              Get the most out of your security.
-            </Text>
-            <Card style={[styles.listCard]}>
-              <View style={{ alignItems: "flex-start" }}>
-                <View style={[styles.rowFlex, { alignItems: "center" }]}>
-                  <MaterialCommunityIcons
-                    name="calendar"
-                    size={34}
-                    color={theme["color-primary-500"]}
-                  />
-                  <View style={styles.colFlex}>
-                    <Text
-                      category="h6"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Adjust Motion Zones
-                    </Text>
-                    <Text
-                      appearance="hint"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Define areas within the camera's view.
-                    </Text>
-                  </View>
-                  <MaterialCommunityIcons
-                    name="arrow-right-circle"
-                    size={24}
-                    color={theme["color-primary-500"]}
-                    style={{ alignItems: "flex-end" }}
-                  />
-                </View>
-              </View>
-            </Card>
-            <Card style={[styles.listCard]}>
-              <View style={{ alignItems: "flex-start" }}>
-                <View style={[styles.rowFlex, { alignItems: "center" }]}>
-                  <MaterialCommunityIcons
-                    name="format-list-group"
-                    size={34}
-                    color={theme["color-primary-500"]}
-                  />
-                  <View style={styles.colFlex}>
-                    <Text
-                      category="h6"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Schedule Recording Periods
-                    </Text>
-                    <Text
-                      appearance="hint"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Automated recording schedules.
-                    </Text>
-                  </View>
-                  <MaterialCommunityIcons
-                    name="arrow-right-circle"
-                    size={24}
-                    color={theme["color-primary-500"]}
-                    style={{ alignItems: "flex-end" }}
-                  />
-                </View>
-              </View>
-            </Card>
-            <Card style={[styles.listCard]}>
-              <View style={{ alignItems: "flex-start" }}>
-                <View style={[styles.rowFlex, { alignItems: "center" }]}>
-                  <MaterialCommunityIcons
-                    name="arrow-decision-auto"
-                    size={34}
-                    color={theme["color-primary-500"]}
-                  />
-                  <View style={styles.colFlex}>
-                    <Text
-                      category="h6"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Enable Night Vision
-                    </Text>
-                    <Text
-                      appearance="hint"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Adjust settings for better vision.
-                    </Text>
-                  </View>
-                  <MaterialCommunityIcons
-                    name="arrow-right-circle"
-                    size={24}
-                    color={theme["color-primary-500"]}
-                    style={{ alignItems: "flex-end" }}
-                  />
-                </View>
-              </View>
-            </Card>
-            <Card style={[styles.listCard]}>
-              <View style={{ alignItems: "flex-start" }}>
-                <View style={[styles.rowFlex, { alignItems: "center" }]}>
-                  <MaterialCommunityIcons
-                    name="filmstrip"
-                    size={34}
-                    color={theme["color-primary-500"]}
-                  />
-                  <View style={styles.colFlex}>
-                    <Text
-                      category="h6"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Connect to Smart Lights
-                    </Text>
-                    <Text
-                      appearance="hint"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Automatic lights w/ motion detection.
-                    </Text>
-                  </View>
-                  <MaterialCommunityIcons
-                    name="arrow-right-circle"
-                    size={24}
-                    color={theme["color-primary-500"]}
-                    style={{ alignItems: "flex-end" }}
-                  />
-                </View>
-              </View>
-            </Card>
-            <Card style={[styles.listCard]}>
-              <View style={{ alignItems: "flex-start" }}>
-                <View style={[styles.rowFlex, { alignItems: "center" }]}>
-                  <MaterialCommunityIcons
-                    name="lightning-bolt"
-                    size={34}
-                    color={theme["color-primary-500"]}
-                  />
-                  <View style={styles.colFlex}>
-                    <Text
-                      category="h6"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Review & Share Clips
-                    </Text>
-                    <Text
-                      appearance="hint"
-                      style={{ marginLeft: 15, marginTop: 5 }}
-                    >
-                      Review saved & edit saved clips.
-                    </Text>
-                  </View>
-                  <MaterialCommunityIcons
-                    name="arrow-right-circle"
-                    size={24}
-                    color={theme["color-primary-500"]}
-                    style={{ alignItems: "flex-end" }}
-                  />
-                </View>
-              </View>
-            </Card>
-
-            {/* Bottom SHEET Modals */}
-          </ScrollView>
+          </SafeAreaView>
         </Layout>
         <BottomSheetModal
           ref={settingSheetRef}
@@ -768,7 +182,6 @@ const styles = StyleSheet.create({
   },
 
   hintText: {
-    marginLeft: 5,
     marginTop: 5,
   },
   balanceBox: {
