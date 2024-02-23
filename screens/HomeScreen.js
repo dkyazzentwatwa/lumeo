@@ -69,7 +69,7 @@ function HomeScreen({ navigation }) {
               <View
                 style={[
                   styles.rowFlex,
-                  { alignItems: "center", justifyContent: "center" },
+                  { alignItems: "center", justifyContent: "center", marginBottom: 15 },
                 ]}
               >
                 <DataCard
@@ -194,7 +194,6 @@ function HomeScreen({ navigation }) {
               >
                 <Text category="h3"> Stats </Text>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("Cameras")}
                 >
                   <MaterialCommunityIcons
                     name="arrow-right-circle"

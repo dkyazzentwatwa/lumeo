@@ -7,13 +7,6 @@ import {
   useTheme,
   Avatar
 } from "@ui-kitten/components";
-/**
- * Renders the AppHeader component with the given title and avatar source.
- *
- * @param {Object} title - The title of the header
- * @param {Object} avatarSource - The source of the avatar image
- * @return {JSX.Element} The rendered AppHeader component
- */
 
 function AppHeader({ title, avatarSource }) {
   const theme = useTheme();
@@ -36,7 +29,7 @@ function AppHeader({ title, avatarSource }) {
         styles.rowFlex,
       ]}
     >
-      <TouchableOpacity onPress={() => settingSheetModal()}>
+      <TouchableOpacity>
         <Avatar size="giant" source={avatarSource} />
       </TouchableOpacity>
     </View>
